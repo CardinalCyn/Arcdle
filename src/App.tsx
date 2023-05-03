@@ -6,24 +6,26 @@ import {useState,useEffect} from 'react'
 import { default as Spells } from './spells/spells.json'
 
 const App=()=> {
-  
+  //spell to be guessed
   const [correctSpell,setCorrectSpell]=useState<SpellType>(Spells[0]);
-
+  //generates spell based on the date.
   const generateRandomSpell=(date:Date)=>{
     const seed= date.getTime();
     const randomIndex= Math.floor(Math.sin(seed) * Spells.length);
     return Spells[randomIndex];
   }
-
+  //on app start, generates random spell based on day
   useEffect(() => {
     const today= new Date();
     const randomSpell=generateRandomSpell(today);
     setCorrectSpell(randomSpell);
   }, []);
-
+  //array of spells that have been submitted.
   const [submissions,setSubmissions]=useState<SpellType[]>([]);
+  //state of whether or not the user has guessed the spell correctly
   const [guessedCorrectly,setGuessedCorrectly]=useState(false);
 
+  //compares guessed spell to correct spell, goes through each property of both
   const submitGuess=(guessValue:SpellType)=>{
     setSubmissions([guessValue,...submissions]);
     let guessedCorrect=true;
